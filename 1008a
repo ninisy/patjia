@@ -1,0 +1,57 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+struct inf{
+	int s ;
+	int ii;
+	int jj;
+};
+bool cmp(inf a, inf b){
+	if(a.s>b.s)
+		return a.s>b.s;
+	else if(a.s == b.s&&a.ii!=b.ii)
+		return a.ii<b.ii;
+	else 
+		return false;
+}
+int main(){
+	int k;
+	cin>>k;
+	
+	inf *a = new inf [k](); 
+	int *x = new int [k];
+	bool flag = false;
+	for(int i=0;i<k;i++){
+		cin>>x[i];
+		a[i].s = x[i];
+		if(x[i]>=0)
+			flag = true;
+	}
+	if(flag){
+		for(int i = 0;i<k;i++){
+			int j = i+1,tmp = a[i].s,t= i;
+			if(x[i]<0)
+				continue;
+			while(j!=k){
+				tmp = tmp + x[j];
+				if(tmp<0)
+					break;
+				else if(tmp>a[i].s){
+					a[i].s = tmp;
+					t = j;
+				}
+				j++;
+			}
+			a[i].ii = i;
+			a[i].jj = t;
+		}
+		sort(a,a+k,cmp);
+		cout<<a[0].s<<" "<<x[a[0].ii ]<<" "<<x[a[0].jj]<<endl;
+	}else{
+		cout<<0<<" "<<x[0]<<" "<<x[k-1]<<endl;
+	}
+
+	system("pause");
+	return 0;
+}
